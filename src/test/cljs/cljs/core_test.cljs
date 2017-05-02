@@ -1189,6 +1189,13 @@
   (is (= (get "0123" nil :not-found) :not-found))
   (is (= (get #js [0 1 2 3] nil :not-found) :not-found)))
 
+(deftest test-cljs-2021
+  (let [check-if-throws #(try (%) (catch js/Error e :fail))]
+    (is (= :fail (fail-if-throws #(subvec nil 0 0))))
+    (is (= :fail (fail-if-throws #(subvec {:foo :bar} 0 1))))
+    (is (= :fail (fail-if-throws #(subvec '(:foo) 0 1))))
+    (is (= :fail (fail-if-throws #(subvec #{:foo} 0 1))))))
+
 (comment
   ;; ObjMap
   ;; (let [ks (map (partial str "foo") (range 500))
